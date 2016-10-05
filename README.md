@@ -35,8 +35,10 @@ Install custom packages
 Make a new directory and cd into this directory.
 ```bash
 mkdir -p ./{dev,etc,lib,usr,bin,usr/bin}
-mknod ./dev/null c 1 3
-mknod ./dev/zero c 1 5
+mknod -m 666 ./dev/null c 1 3
+mknod -m 666 ./dev/zero c 1 5
+mknod -m 444 ./dev/random c 1 8
+mknod -m 444 ./dev/urandom c 1 9
 ```
 Copy over the apps and associated libraries.
 ```bash
