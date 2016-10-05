@@ -42,7 +42,7 @@ mknod -m 444 ./dev/urandom c 1 9
 ```
 Copy over the apps and associated libraries.
 ```bash
-APPS="/bin/bash /bin/ls /bin/mkdir /bin/mv /bin/pwd /bin/rm /usr/bin/id /usr/bin/ssh /bin/ping /usr/bin/dircolors"
+APPS="/bin/bash /bin/sh /bin/ls /bin/mkdir /bin/mv /bin/pwd /bin/rm /usr/bin/id /usr/bin/ssh /bin/ping /usr/bin/dircolors /usr/bin/scp /usr/bin/svnserve /usr/lib/openssh/sftp-server"
 for prog in $APPS;  do
         mkdir -p ./`dirname $prog` > /dev/null 2>&1
         cp -L $prog ./$prog
