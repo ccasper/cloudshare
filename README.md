@@ -71,6 +71,27 @@ find /lib -name libnss_files.so.2
 ```
 Next copy the files listed from the above commands to the chroot and match the directory structure root.
 
+Copy locale archive to prevent the following warnings: 
+
+Errors when running /usr/bin/lcale in chroot:
+```
+locale: Cannot set LC_CTYPE to default locale: No such file or directory
+locale: Cannot set LC_MESSAGES to default locale: No such file or directory
+locale: Cannot set LC_ALL to default locale: No such file or directory
+```
+Errors when running /usr/bin/svnserve in chroot:
+```
+svnserve: warning: cannot set LC_CTYPE locale
+svnserve: warning: environment variable LANG is en_US.UTF-8
+svnserve: warning: please check that your locale name is correct
+```
+Prevent these errors by copying the locale-archive:
+```bash
+mkdir -p ./usr/lib/locale
+cp /usr/lib/locale/locale-archive ./usr/lib/locale/
+```
+
+
 Create groups script
 ```bash
 echo '#!/bin/bash' > usr/bin/groups
