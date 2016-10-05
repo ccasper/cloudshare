@@ -44,16 +44,20 @@ Copy over the apps and associated libraries.
 ```bash
 APPS="/bin/bash /bin/ls /bin/mkdir /bin/mv /bin/pwd /bin/rm /usr/bin/id /usr/bin/ssh /bin/ping /usr/bin/dircolors"
 for prog in $APPS;  do
+        mkdir -p ./`dirname $prog` > /dev/null 2>&1
         cp -L $prog ./$prog
 
         # obtain a list of related libraries
         ldd $prog > /dev/null
         if [ "$?" = 0 ] ; then
-                LIBS=`ldd $prog | awk '{ print $3 }'`
+                LIBS=`ldd $prog | awk '{ print $3 }' | egrep -v ^'\(')`
                 for l in $LIBS; do
                         mkdir -p ./`dirname $l` > /dev/null 2>&1
                         cp -L $l ./$l
                 done
+                LDLIB="$(ldd $prog | grep 'ld-linux' | awk '{ print $1}')"
+                mkdir -p ./`dirname $LDLIB` > /dev/null 2>&1
+                cp -L $LDLIB ./$LDLIB
         fi 
 done
 ```
